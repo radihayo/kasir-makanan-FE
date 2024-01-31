@@ -19,7 +19,7 @@
                     <th style="width: 200px">Aksi</th>
                   </tr>
                 </thead>
-                <tbody v-for="(item,index) in dataAllTransaction.data">
+                <tbody v-for="(item, index) in dataAllTransaction.data">
                   <tr>
                     <td>{{ index + 1 }}</td>
                     <td>{{ item.kode_produk }}</td>

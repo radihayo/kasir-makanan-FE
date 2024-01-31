@@ -66,8 +66,7 @@ import { useTransactionStore } from '../../stores/transactionStore'
 const menu = useMenuStore();
 const transaction = useTransactionStore();
 let dataDetailMenu = ref([]);
-const dataKodeProductsOnly = new Array();
-console.log(dataDetailMenu.value);
+// console.log(dataDetailMenu.value);
 let anyar = '';
 
 
@@ -75,17 +74,17 @@ const url = window.location.href;
 const idDataFood = url.split("/").slice(-1)[0];
 
 const today = new Date();
-const date = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
+const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 
-let dataInputOrder = reactive({
-  kode_produk:'',
-  jumlah:'',
-  tanggal_transaksi:date,
-  waktu_transaksi:time,
-  pegawai_melayani:'Hanif',
-  keterangan:'',
-  status:'0'
+const dataInputOrder = reactive({
+  kode_produk: '',
+  jumlah: '',
+  tanggal_transaksi: date,
+  waktu_transaksi: time,
+  pegawai_melayani: 'Hanif',
+  keterangan: '',
+  status: '0'
 });
 
 const fetchData = async () => {
@@ -94,6 +93,7 @@ const fetchData = async () => {
 
     const response = await menu.getDataDetailFood(idDataFood);
     dataDetailMenu.value = response.data;
+    dataInputOrder.kode_produk = response.data.data.kode_produk;
     // console.log(response.data.data.kode_produk);
     // console.log(dataInputOrder['kode_produk']);
     temp_kode_product.kode_produk = response.data.data.kode_produk;
@@ -101,18 +101,24 @@ const fetchData = async () => {
     // anyar = response.data.data.kode_produk;
     // console.log(anyar);
     dataInputOrder.value.kode_produk = response.data.data.kode_produk;
-    
+
     // dataInputOrder['kode_produk'].value.push(response.data.data.kode_produk);
   } catch (error) {
   }
 };
 
-const orderMenu =  async () => {
+const orderMenu = async () => {
   try {
-    // const response = await transaction.transactionDataStore(dataInputOrder);
-    // return response;
-    console.log(dataInputOrder);
+    const response = await transaction.transactionDataStore(dataInputOrder);
+    if (response == 201) {
+      window.alert('Order berhasil!');
+      window.history.back();
+    } else {
+      window.alert('Gagal melakukan order. Silakan coba lagi.');
+    }
   } catch (error) {
+    console.error(error);
+    window.alert('Terjadi kesalahan. Silakan coba lagi.');
   }
 };
 
