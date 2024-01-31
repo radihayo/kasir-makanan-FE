@@ -28,12 +28,13 @@
           </div>
           <div class="col-12 col-sm-6">
             <form v-on:submit.prevent>
-              <!-- <input type="hidden" v-model="dataInputOrder.kode_produk" :value="kiko"> -->
-              <!-- <input type="hidden" :value="item.kode_produksi" @input="item.kode_produksi = $event.target.value"> -->
+              <!-- <input type="text" v-model="dataInputOrder.kode_produk" value="kiko"> -->
+              <!-- <input type="hidden" :value="item.kode_produk" @input="dataInputOrder.kode_produk = $event.target.value"> -->
               <h3 class="my-3">{{ item.nama_produk }}</h3>
               <p>{{ item.deskripsi }}</p>
               <hr>
               <h4>Rp. {{ item.harga }}</h4>
+
               <div class="form-group">
                 <label for="jumlah">Jumlah Pesan</label>
                 <input type="text" class="form-control" v-model="dataInputOrder.jumlah">
@@ -64,9 +65,11 @@ import { useTransactionStore } from '../../stores/transactionStore'
 // const idData = $route.params.id;
 const menu = useMenuStore();
 const transaction = useTransactionStore();
-const dataDetailMenu = ref([]);
-const dataKodeProductsOnly = [];
-// console.log(dataKodeProductsOnly[0].kode_produk);
+let dataDetailMenu = ref([]);
+const dataKodeProductsOnly = new Array();
+console.log(dataDetailMenu.value);
+let anyar = '';
+
 
 const url = window.location.href;
 const idDataFood = url.split("/").slice(-1)[0];
@@ -75,7 +78,7 @@ const today = new Date();
 const date = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
 const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 
-const dataInputOrder = reactive({
+let dataInputOrder = reactive({
   kode_produk:'',
   jumlah:'',
   tanggal_transaksi:date,
@@ -91,9 +94,13 @@ const fetchData = async () => {
 
     const response = await menu.getDataDetailFood(idDataFood);
     dataDetailMenu.value = response.data;
+    // console.log(response.data.data.kode_produk);
     // console.log(dataInputOrder['kode_produk']);
     temp_kode_product.kode_produk = response.data.data.kode_produk;
-    dataKodeProductsOnly.push(temp_kode_product);
+    // dataKodeProductsOnly.push(response.data.data.kode_produk);
+    // anyar = response.data.data.kode_produk;
+    // console.log(anyar);
+    dataInputOrder.value.kode_produk = response.data.data.kode_produk;
     
     // dataInputOrder['kode_produk'].value.push(response.data.data.kode_produk);
   } catch (error) {
