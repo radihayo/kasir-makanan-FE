@@ -58,14 +58,14 @@
 </template>
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useMenuStore } from '../../stores/menuStore.js';
+import { UseAppStore } from '../../stores/appStore.js';
 
-const food = useMenuStore();
+const VarAppStore = UseAppStore();
 const dataAllFood = ref([]);
 
 const fetchData = async () => {
   try {
-    const response = await food.getDataAllFood();
+    const response = await VarAppStore.getDataAllFood();
     dataAllFood.value = response.data
   } catch (error) {
   }

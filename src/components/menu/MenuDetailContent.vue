@@ -15,26 +15,22 @@
     </div><!-- /.container-fluid -->
   </section>
   <section class="content">
-
     <!-- Default box -->
     <div class="card card-solid">
       <div class="card-body">
         <div class="row" v-for="item in dataDetailMenu">
           <div class="col-12 col-sm-6">
             <div class="col-12">
+              <!-- <img :src="require('@/assets/image/'+item.kode_produksi)" class="product-image" alt="Product Image"> -->
               <img src="../../assets/image/P-003.jpg" class="product-image" alt="Product Image">
-              <!-- <img :src="'../../assets/image/'+item.kode_produk" class="product-image" alt="Product Image"> -->
             </div>
           </div>
           <div class="col-12 col-sm-6">
             <form v-on:submit.prevent>
-              <!-- <input type="text" v-model="dataInputOrder.kode_produk" value="kiko"> -->
-              <!-- <input type="hidden" :value="item.kode_produk" @input="dataInputOrder.kode_produk = $event.target.value"> -->
               <h3 class="my-3">{{ item.nama_produk }}</h3>
               <p>{{ item.deskripsi }}</p>
               <hr>
               <h4>Rp. {{ item.harga }}</h4>
-
               <div class="form-group">
                 <label for="jumlah">Jumlah Pesan</label>
                 <input type="text" class="form-control" v-model="dataInputOrder.jumlah">
@@ -43,7 +39,7 @@
                 <label>Keterangan</label>
                 <textarea class="form-control" rows="3" v-model="dataInputOrder.keterangan"></textarea>
               </div>
-              <button type="submit" class="btn btn-primary" @click="orderMenu">Pesan</button>
+              <!-- <button type="submit" class="btn btn-primary" @click="orderMenu">Pesan</button> -->
             </form>
           </div>
         </div>
@@ -52,73 +48,48 @@
     </div>
     <!-- /.card -->
   </section>
-  <!-- <div v-for="item in dataKodeProductsOnly">
-    {{ item.kode_produk }}
-  </div> -->
-  <!-- {{ dataKodeProductsOnly[0].kode_produk }} -->
+
 </template>
 <script setup>
 import { reactive, ref, onMounted } from 'vue';
-import { useMenuStore } from '../../stores/menuStore';
-import { useTransactionStore } from '../../stores/transactionStore'
+import { UseAppStore } from '../../stores/appStore';
 
+const VarAppStore = UseAppStore();
 // const idData = $route.params.id;
-const menu = useMenuStore();
-const transaction = useTransactionStore();
-let dataDetailMenu = ref([]);
-// console.log(dataDetailMenu.value);
-let anyar = '';
-
+const dataDetailMenu = ref([]);
 
 const url = window.location.href;
 const idDataFood = url.split("/").slice(-1)[0];
 
 const today = new Date();
-const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+const date = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
 const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 
 const dataInputOrder = reactive({
-  kode_produk: '',
-  jumlah: '',
-  tanggal_transaksi: date,
-  waktu_transaksi: time,
-  pegawai_melayani: 'Hanif',
-  keterangan: '',
-  status: '0'
+  kode_produk:'',
+  jumlah:'',
+  tanggal_transaksi:date,
+  waktu_transaksi:time,
+  pegawai_melayani:'Hanif',
+  keterangan:'',
+  status:'0'
 });
 
 const fetchData = async () => {
   try {
-    const temp_kode_product = {};
-
-    const response = await menu.getDataDetailFood(idDataFood);
+    const response = await VarAppStore.getDataDetailFood(idDataFood);
     dataDetailMenu.value = response.data;
-    dataInputOrder.kode_produk = response.data.data.kode_produk;
-    // console.log(response.data.data.kode_produk);
-    // console.log(dataInputOrder['kode_produk']);
-    temp_kode_product.kode_produk = response.data.data.kode_produk;
-    // dataKodeProductsOnly.push(response.data.data.kode_produk);
-    // anyar = response.data.data.kode_produk;
-    // console.log(anyar);
     dataInputOrder.value.kode_produk = response.data.data.kode_produk;
-
-    // dataInputOrder['kode_produk'].value.push(response.data.data.kode_produk);
   } catch (error) {
   }
 };
 
-const orderMenu = async () => {
+const orderMenu =  async () => {
   try {
-    const response = await transaction.transactionDataStore(dataInputOrder);
-    if (response == 201) {
-      window.alert('Order berhasil!');
-      window.history.back();
-    } else {
-      window.alert('Gagal melakukan order. Silakan coba lagi.');
-    }
+    const response = await VarAppStore.storeDataTransaction(dataInputOrder);
+    // return response;
+    // console.log(dataInputOrder);
   } catch (error) {
-    console.error(error);
-    window.alert('Terjadi kesalahan. Silakan coba lagi.');
   }
 };
 

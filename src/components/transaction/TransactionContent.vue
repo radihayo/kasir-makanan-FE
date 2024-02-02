@@ -19,7 +19,7 @@
                     <th style="width: 200px">Aksi</th>
                   </tr>
                 </thead>
-                <tbody v-for="(item, index) in dataAllTransaction.data">
+                <tbody v-for="(item,index) in dataAllTransaction.data">
                   <tr>
                     <td>{{ index + 1 }}</td>
                     <td>{{ item.kode_produk }}</td>
@@ -55,14 +55,14 @@
 </template>
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useTransactionStore } from '../../stores/transactionStore.js';
+import { UseAppStore } from '../../stores/appStore.js';
 
-const transaction = useTransactionStore();
+const VarAppStore = UseAppStore();
 const dataAllTransaction = ref([]);
 
 const fetchData = async () => {
   try {
-    const response = await transaction.getDataAllTransaction();
+    const response = await VarAppStore.getDataAllTransaction();
     dataAllTransaction.value = response.data
   } catch (error) {
   }

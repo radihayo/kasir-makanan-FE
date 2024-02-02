@@ -15,7 +15,6 @@
       </div><!-- /.container-fluid -->
     </section>
   <section class="content">
-
     <!-- Default box -->
     <div class="card card-solid">
       <div class="card-body">
@@ -44,14 +43,14 @@
 </template>
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useMenuStore } from '../../stores/menuStore.js';
+import { UseAppStore } from '../../stores/appStore.js';
 
-const menu = useMenuStore();
+const VarAppStore = UseAppStore();
 const dataAllMenu = ref([]);
 
 const fetchData = async () => {
   try {
-    const response = await menu.getDataAllFood();
+    const response = await VarAppStore.getDataAllFood();
     dataAllMenu.value = response.data
   } catch (error) {
   }

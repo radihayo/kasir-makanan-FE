@@ -91,14 +91,14 @@
 </template>
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useEmployeeStore } from '../../stores/employeeStore';
+import { UseAppStore } from '../../stores/appStore';
 
-const employee = useEmployeeStore();
+const VarAppStore = UseAppStore();
 const dataAllEmployee = ref([]);
 
 const fetchData = async () => {
     try {
-        const response = await employee.getDataAllEmployee();
+        const response = await VarAppStore.getDataAllEmployee();
         dataAllEmployee.value = response.data;
     } catch (error) {
 

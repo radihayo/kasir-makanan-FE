@@ -81,16 +81,16 @@
 </template>
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useEmployeeStore } from '../../stores/employeeStore.js';
+import { UseAppStore } from '../../stores/appStore.js';
 
-const employee = useEmployeeStore();
+const VarAppStore = UseAppStore();
 const dataDetailEmployee = ref([]);
 const url = window.location.href;
 const idData = url.split("/").slice(-1)[0];
 
 const fetchData = async () => {
   try {
-    const response = await employee.getDataDetailEmployee(idData);
+    const response = await VarAppStore.getDataDetailEmployee(idData);
     dataDetailEmployee.value = response.data
   } catch (error) {
   }
