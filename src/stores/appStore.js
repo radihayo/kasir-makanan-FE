@@ -8,7 +8,6 @@ export const UseAppStore = defineStore('AppStore', () => {
             const response = await axios.get('/products/show');
             return response;
         } catch (error) {
-            console.log(error);
         }
     };
     const getDataDetailFood = async (idDataFood) => {
@@ -16,7 +15,27 @@ export const UseAppStore = defineStore('AppStore', () => {
             const response = await axios.get('/products/show/'+idDataFood);
             return response;
         } catch (error) {
-            console.log(error);
+        }
+    };
+    const storeDataFood = async (dataFood,config) => {
+        try {
+            const response = await axios.post('/products/store',dataFood,config);
+            return response;
+        } catch (error) {
+        }
+    };
+    const updateDataFood = async (idDataFood,dataFood) => {
+        try {
+            const response = await axios.put('/products/update/'+idDataFood,dataFood);
+            return response;
+        } catch (error) {
+        }
+    };
+    const destroyDataFood = async (idDataFood) => {
+        try {
+            const response = await axios.delete('/products/destroy/'+idDataFood);
+            return response;
+        } catch (error) {
         }
     };
 
@@ -26,7 +45,6 @@ export const UseAppStore = defineStore('AppStore', () => {
             const response = await axios.get('/employees/show');
             return response;
         } catch (error) {
-            console.log(error);
         }
     };
     const getDataDetailEmployee = async (idData) => {
@@ -34,7 +52,30 @@ export const UseAppStore = defineStore('AppStore', () => {
             const response = await axios.get('/employees/show/'+idData);
             return response;
         } catch (error) {
-            console.log(error);
+        }
+    };
+    const storeDataEmployee = async (dataEmployee) => {
+        // try {
+            const response = await axios.post('/employees/store',dataEmployee);
+            return response;
+        // } catch (error) {
+        //     console.log(error.response.data.errors)
+        // }
+    };
+    const updateDataEmployee = async (idEmployee,dataEmployee) => {
+        // try {
+            const response = await axios.put('/employees/update/'+idEmployee, dataEmployee);
+            return response;
+        // } catch (error) {
+            
+        // }
+    };
+    const destroyDataEmployee = async (idEmployee) => {
+        try {
+            const response = await axios.delete('/employees/destroy/'+idEmployee);
+            return response;
+        } catch (error) {
+            
         }
     };
 
@@ -59,8 +100,14 @@ export const UseAppStore = defineStore('AppStore', () => {
     return{
         getDataAllFood,
         getDataDetailFood,
+        storeDataFood,
+        updateDataFood,
+        destroyDataFood,
         getDataAllEmployee,
         getDataDetailEmployee,
+        storeDataEmployee,
+        updateDataEmployee,
+        destroyDataEmployee,
         getDataAllTransaction,
         storeDataTransaction
     };

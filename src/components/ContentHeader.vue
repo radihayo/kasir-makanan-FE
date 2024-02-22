@@ -15,12 +15,6 @@
         </div><!-- /.container-fluid -->
     </section>
 </template>
-<script>
-export default {
-  props: {
-    TextContentHeader: {
-      type: String
-    }
-  }
-}  
+<script setup>
+const props = defineProps(['TextContentHeader']);
 </script>

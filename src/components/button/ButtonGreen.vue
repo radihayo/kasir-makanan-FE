@@ -1,7 +1,16 @@
 <template>
-    <button type="button" @click="ActionButton" class="btn btn-success">{{ TextButton }}</button>
+    <button type="button" @click="actionButton" class="btn btn-success">{{ TextButton }}</button>
 </template>
-<script>
+<script setup>
+// import { defineEmits } from 'vue';
+const props = defineProps(['TextButton']);
+const emit = defineEmits(['actionButton']);
+
+// const actionButton = () => {
+//   emit('click');
+// };
+</script>
+<!-- <script>
 export default {
   props: {
     TextButton: {
@@ -9,9 +18,9 @@ export default {
     }
   },
   methods: {
-    ActionButton() {
+    actionButton() {
       this.$emit('click');
     }
   }
 }
-</script>
+</script> -->

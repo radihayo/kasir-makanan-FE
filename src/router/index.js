@@ -7,7 +7,6 @@ import ListFoodView from '../views/ListFoodView.vue'
 import ListEmployeeView from '../views/ListEmployeeView.vue'
 import SettingView from '../views/SettingView.vue'
 import TransactionViiew from '../views/TransactionView.vue'
-import MenuDetailContent from '../components/menu/MenuDetailContent.vue'
 import DetailEmployeeContent from '../components/employee/DetailEmployeeContent.vue'
 
 const router = createRouter({
@@ -32,11 +31,6 @@ const router = createRouter({
       path: '/menu',
       name: 'menu',
       component: MenuView
-    },
-    {
-      path: '/menu/:id',
-      name: 'menudetail',
-      component: MenuDetailContent
     },
     {
       path: '/listfood',

@@ -1,21 +1,92 @@
-<script setup>
-import TransactionContent from '../components/transaction/TransactionContent.vue'
-</script>
 <template>
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Daftar Transaksi</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Daftar Transaksi</li>
-            </ol>
+  <ContentHeader TextContentHeader="Daftar Transaksi" />
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <!-- <vue-good-table :line-numbers="true" :columns="columnsTransaction" :rows="dataAllTransaction"
+              :pagination-options="{ enabled: true }" :search-options="{ enabled: true }">
+              <template #table-row="tableAllTransaction">
+                <span v-if="tableAllTransaction.column.field == 'aksi'">
+                  <ButtonBlue TextButton="Edit" class="mr-1 mb-1" />
+                  <ButtonRed TextButton="Delete" class="mb-1" />
+                </span>
+                <span>
+                  {{ tableAllTransaction.formattedRow[tableAllTransaction.column.field] }}
+                </span>
+              </template>
+            </vue-good-table> -->
+            <Table :columns="columnsTransaction" :rows="dataAllTransaction" :onEditRow="editRow" :onDeleteRow="deleteRow"/>
           </div>
         </div>
-      </div><!-- /.container-fluid -->
-    </section>
-    <TransactionContent/>
+      </div>
+    </div>
+  </section>
 </template>
+<script setup>
+import { ref, onMounted } from 'vue';
+import { UseAppStore } from '../stores/appStore.js';
+import ContentHeader from '../components/ContentHeader.vue';
+import Table from '../components/Table.vue';
+import ButtonBlue from '../components/button/ButtonBlue.vue';
+import ButtonRed from '../components/button/ButtonRed.vue';
+
+const VarAppStore = UseAppStore();
+const dataAllTransaction = ref([]);
+
+const columnsTransaction = ref([
+  {
+    label: "Kode",
+    field: "kode_produk",
+  },
+  {
+    label: "Jumlah",
+    field: "jumlah",
+  },
+  {
+    label: "Tanggal Transaksi",
+    field: "tanggal_transaksi",
+  },
+  {
+    label: "Waktu Transaksi",
+    field: "waktu_transaksi",
+  },
+  {
+    label: "Pegawai Melayani",
+    field: "pegawai_melayani",
+  },
+  {
+    label: "Keterangan",
+    field: "keterangan",
+  },
+  {
+    label: "Status",
+    field: "status",
+  },
+  {
+    label: "Aksi",
+    field: "aksi",
+  }
+]);
+
+const fetchData = async () => {
+  try {
+    const response = await VarAppStore.getDataAllTransaction();
+    dataAllTransaction.value = response.data.data
+  } catch (error) {
+  }
+};
+
+const editRow = async () => {
+
+};
+
+const deleteRow = async () => {
+
+};
+
+onMounted(async () => {
+  await fetchData();
+});
+</script>
