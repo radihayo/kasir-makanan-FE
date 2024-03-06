@@ -11,7 +11,7 @@
           <img src="../assets/adminlte/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block">{{ nameUserLogin }}</a>
         </div>
       </div>
       <nav class="mt-2">
@@ -48,7 +48,7 @@
               </p>
             </RouterLink>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="checkLevel=='admin'">
             <RouterLink class="nav-link" to="/listemployee">
               <i class="nav-icon fas fa-users"></i>
               <p>
@@ -69,3 +69,7 @@
     </div>
   </aside>
 </template>
+<script setup>
+const nameUserLogin = localStorage.getItem('userLoginName');
+const checkLevel = localStorage.getItem('userLoginLevel');
+</script>

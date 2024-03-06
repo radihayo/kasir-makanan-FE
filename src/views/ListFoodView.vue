@@ -1,78 +1,43 @@
 <template>
-  <ContentHeader TextContentHeader="Daftar Makanan" />
-  <section class="content">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12" v-show="displayAll">
-          <div class="card">
-            <!-- <cropper
-	:src="img"
-  class="cropper"
-	:stencil-props="{
-		handlers: {},
-		movable: false,
-		resizable: false,
-		aspectRatio: 1,
-	}"
-	:resize-image="{
-		adjustStencil: false
-	}"
-	image-restriction="stencil"
-/> -->
-            <div class="card-header">
-              <ButtonPlus @click="formData()" />
-            </div>
-            <!-- <vue-good-table :line-numbers="true" :columns="columnsFood" :rows="dataAllFood" :pagination-options="{ enabled: true }"
-              :search-options="{ enabled: true }">
-              <template #table-row="tableAllFood">
-                <span v-if="tableAllFood.column.field == 'aksi'">
-                  <ButtonBlue TextButton="Edit" @click="formData2(tableAllFood.row.id)" class="mr-1 mb-1"/>
-                  <ButtonRed TextButton="Delete" @click="deleteDataFood(tableAllFood.row.id)" class="mb-1"/>
-                </span>
-                <span v-else-if="tableAllFood.column.field == 'tersedia'">
-                  <span v-if="tableAllFood.row.tersedia == '0'">
-                    Tersedia
-                  </span>
-                  <span v-else>
-                    Tidak Tersedia
-                  </span>
-                </span>
-                <span v-else>
-                  {{ tableAllFood.formattedRow[tableAllFood.column.field] }}
-                </span>
-              </template>
-            </vue-good-table> -->
-            <Table :columns="columnsFood" :rows="dataAllFood" :onEditRow="editRow" :onDeleteRow="deleteDataFood" />
-          </div>
-          <!-- /.card -->
-        </div>
-        <!-- /.col -->
-        <div class="col-md-12" v-show="displayFormData">
-          <!-- general form elements -->
-          <div class="card card-primary">
-            <div class="card-header">
-              <h3 class="card-title" v-show="buttonAdd">Tambah Data Makanan</h3>
-              <h3 class="card-title" v-show="!buttonAdd">Edit Data Makanan</h3>
-            </div>
-            <!-- form start -->
-            <form @submit.prevent>
-              <div class="card-body">
-                <div class="form-group">
-                  <label for="kode">Kode</label>
-                  <input type="text" v-model="dataInputFood.kode_produk" class="form-control">
+  <Navbar />
+  <Sidebar />
+  <div class="content-wrapper">
+    <div class="content">
+      <div class="container-fluid">
+        <ContentHeader TextContentHeader="Daftar Makanan" />
+        <section class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12" v-show="displayAll">
+                <div class="card">
+                  <div class="card-header">
+                    <ButtonPlus @click="formData()" />
+                  </div>
+                  <Table :columns="columnsFood" :rows="dataAllFood" :onEditRow="editRow" :onDeleteRow="deleteDataFood" />
                 </div>
-                <div class="form-group">
-                  <label for="nama">Nama</label>
-                  <input type="text" v-model="dataInputFood.nama_produk" class="form-control">
-                </div>
-                <div class="form-group">
-                  <label for="deskripsi">Deskripsi</label>
-                  <textarea type="text" v-model="dataInputFood.deskripsi" class="form-control"></textarea>
-                </div>
-                <div class="form-group">
-                  <label for="gambar">Gambar</label>
-                  <!-- <button @click="showModal">Add Image</button> -->
-                  <!-- <div class="input-group">
+                <!-- /.card -->
+              </div>
+              <!-- /.col -->
+              <div class="col-md-12" v-show="displayFormData">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                  <div class="card-header">
+                    <h3 class="card-title" v-show="buttonAdd">Tambah Data Makanan</h3>
+                    <h3 class="card-title" v-show="!buttonAdd">Edit Data Makanan</h3>
+                  </div>
+                  <!-- form start -->
+                  <form @submit.prevent>
+                    <div class="card-body">
+                      <FormInputBase labelText="Kode" v-model="dataInputFood.kode_produk"
+                        :errorMessage="errorMessageValue?.kode_produk" inputType="number" />
+                      <FormInputBase labelText="Nama" v-model="dataInputFood.nama_produk"
+                        :errorMessage="errorMessageValue?.nama_produk" inputType="text" />
+                      <FormInputTextArea labelText="Deskripsi" v-model="dataInputFood.deskripsi"
+                        :errorMessage="errorMessageValue?.deskripsi" rowsLength="2" />
+                      <div class="form-group">
+                        <label for="gambar">Gambar</label>
+                        <!-- <button @click="showModal">Add Image</button> -->
+                        <!-- <div class="input-group">
                     <div class="custom-file">
                       <input type="file" @change="uploadImage" class="custom-file-input">
                       <label class="custom-file-label" for="gambar">Choose file</label>
@@ -82,9 +47,9 @@
 
                     </div>
                   </div> -->
-                  <!-- <button @click="showModal">Upload</button> -->
-                  <input type="file" @change="uploadImage" class="form-control" ref="file">
-                  <!-- <div class="input-group">
+                        <!-- <button @click="showModal">Upload</button> -->
+                        <input type="file" @change="uploadImageNotEdit" class="form-control" ref="file">
+                        <!-- <div class="input-group">
                     <div class="custom-file">
                       <input type="file" @change="uploadImage" class="custom-file-input">
                       <label class="custom-file-label" for="gambar">Choose file</label>
@@ -93,47 +58,58 @@
                       <span class="input-group-text">Upload</span>
                     </div>
                   </div> -->
-                </div>
-                <div class="form-group">
-                  <label for="harga">Harga</label>
-                  <input type="text" v-model="dataInputFood.harga" class="form-control">
+                        <span style="color: red; font-size: 12px;" v-if="errorMessageValue?.file">{{
+                          errorMessageValue.file[0] }}</span>
+                      </div>
+                      <FormInputBase labelText="Harga" v-model="dataInputFood.harga"
+                        :errorMessage="errorMessageValue?.harga" inputType="number" />
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                      <div v-show="buttonAdd">
+                        <ButtonGreen textButton="Tambah" @click="addDataFood" class="mr-1" />
+                        <ButtonBlue textButton="Kembali" @click="backToMenuFromAdd" />
+                      </div>
+                      <div v-show="buttonUpdate">
+                        <ButtonGreen textButton="Ubah" @click="updateDataFood" class="mr-1" />
+                        <ButtonBlue textButton="Kembali" @click="backToMenuFromEdit" />
+                      </div>
+                    </div>
+                  </form>
                 </div>
               </div>
-              <!-- /.card-body -->
-              <div class="card-footer">
-                <ButtonGreen TextButton="Tambah" v-show="buttonAdd" @click="addDataFood" class="mr-1" />
-                <ButtonGreen TextButton="Ubah" v-show="!buttonAdd" @click="updateDataFood" class="mr-1" />
-                <ButtonBlue TextButton="Kembali" @click="backToMenu" />
-              </div>
-            </form>
-          </div>
-        </div>
 
+            </div>
+            <!-- /.row -->
+          </div><!-- /.container-fluid -->
+
+          <ModalWindow v-show="displayModal" textModal="Upload Foto" @modal-close="closeModal">
+            <template #content>
+              <div class="modal-body">
+                <cropper ref="cropper" :src="inputImage" class="cropper" :stencil-props="{
+                  handlers: {},
+                  movable: false,
+                  resizable: false,
+                  aspectRatio: 1,
+                }" :resize-image="{
+  adjustStencil: false
+}" image-restriction="stencil" />
+              </div>
+            </template>
+            <template #footer>
+              <button type="button" class="btn btn-primary" @click="saveCroppedImage">Simpan</button>
+            </template>
+          </ModalWindow>
+        </section>
       </div>
-      <!-- /.row -->
-    </div><!-- /.container-fluid -->
-    <ModalWindow v-show="displayModal" TextModal="Upload Foto" @saveData="saveCroppedImage" @modal-close="closeModal">
-      <template #content>
-        <div class="modal-body">
-          <cropper ref="cropper" :src="inputImage" class="cropper" :stencil-props="{
-          handlers: {},
-          movable: false,
-          resizable: false,
-          aspectRatio: 1,
-          }"
-          :resize-image="{
-          adjustStencil: false
-          }" 
-          image-restriction="stencil"/>
-        </div>
-      </template>
-      <!-- <template #footer>
-        <button type="button" class="btn btn-primary" @click="saveCroppedImage">Simpan</button>
-      </template> -->
-    </ModalWindow>
-  </section>
+    </div>
+  </div>
+  <Footer />
 </template>
 <script setup>
+import Navbar from '../components/Navbar.vue';
+import Sidebar from '../components/Sidebar.vue';
+import Footer from '../components/Footer.vue';
 import { ref, reactive, onMounted } from 'vue';
 import { UseAppStore } from '../stores/appStore.js';
 import ContentHeader from '../components/ContentHeader.vue';
@@ -141,7 +117,8 @@ import Table from '../components/Table.vue';
 import ButtonPlus from '../components/button/ButtonPlus.vue';
 import ButtonGreen from '../components/button/ButtonGreen.vue';
 import ButtonBlue from '../components/button/ButtonBlue.vue';
-import ButtonGrey from '../components/button/ButtonGrey.vue';
+import FormInputBase from '../components/form/FormInputBase.vue';
+import FormInputTextArea from '../components/form/FormInputTextArea.vue';
 
 import ModalWindow from '../components/Modal.vue';
 
@@ -151,7 +128,11 @@ import 'vue-advanced-cropper/dist/style.css';
 const VarAppStore = UseAppStore();
 const dataAllFood = ref([]);
 const inputImage = ref('');
-// const cropper = ref('');
+const errorMessageValue = ref({});
+// const cropper = ref();
+const headers = {
+  Authorization: `Bearer ${localStorage.getItem('token')}`
+};
 
 let displayAll = ref(true);
 let displayFormData = ref(false);
@@ -181,10 +162,6 @@ const columnsFood = ref([
     field: "harga",
   },
   {
-    label: "Tersedia",
-    field: "tersedia",
-  },
-  {
     label: "Aksi",
     field: "aksi",
   }
@@ -196,14 +173,33 @@ const dataInputFood = reactive({
   deskripsi: '',
   file: '',
   harga: '',
-  tersedia: '1'
 });
 
 const fetchData = async () => {
   try {
-    const response = await VarAppStore.getDataAllFood();
+    const response = await VarAppStore.getDataAllFood({ headers });
     dataAllFood.value = response.data.data;
   } catch (error) {
+  }
+};
+
+const emptyForm = async () => {
+  try {
+    dataInputFood.kode_produk = '',
+      dataInputFood.nama_produk = '',
+      dataInputFood.deskripsi = '',
+      dataInputFood.file = '',
+      dataInputFood.harga = ''
+  } catch (error) {
+
+  }
+};
+
+const emptyMessage = async () => {
+  try {
+    errorMessageValue.value = '';
+  } catch (error) {
+
   }
 };
 
@@ -245,13 +241,22 @@ const uploadImage = async (e) => {
   }
 };
 
+const uploadImageNotEdit = async (e) => {
+  try {
+    const image = e.target.files[0];
+    dataInputFood.file = image;
+  } catch (error) {
+
+  }
+};
 
 const saveCroppedImage = async () => {
   try {
-    // const result = cropper.value.getResult();
-    const { canvas } = this.$refs.cropper.getResult();
-    // const result = cropper.getResult();
-    dataInputFood.file = canvas;
+    console.log(cropper);
+    const canvas = cropper.value.getResult();
+    // const { canvas } = this.$refs.cropper.getResult();
+    // const canvas = refs.cropper.getResult();
+    // dataInputFood.file = canvas;
 
     console.log(dataInputFood);
 
@@ -267,14 +272,7 @@ const saveCroppedImage = async () => {
     // emit("isEmit",file);
     // console.log(file);
   } catch (error) {
-    
-  }
-};
 
-const showModal = async () => {
-  try {
-    displayModal.value = true;
-  } catch (error) {
   }
 };
 
@@ -290,37 +288,97 @@ const addDataFood = async () => {
     const config = {
       headers: {
         'content-type': 'multipart/form-data',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     };
     const response = await VarAppStore.storeDataFood(dataInputFood, config);
-
+    if (response.status == 201) {
+      emptyForm();
+      backToMenuFromAdd();
+      fetchData();
+      Swal.fire({
+        title: "Data " + response.data.data.nama_produk + " Berhasil Ditambahkan",
+        icon: "success"
+      });
+    } else {
+      Swal.fire({
+        title: "Data " + response.data.data.nama_produk + " Gagal Ditambahkan",
+        icon: "error"
+      });
+    }
   } catch (error) {
-
+    errorMessageValue.value = error.response.data.errors;
+    // console.clear();
   }
 };
 
 const updateDataFood = async () => {
   try {
-    const response = await VarAppStore.updateDataFood(dataInputFood.id, dataInputFood)
+    const response = await VarAppStore.updateDataFood(dataInputFood.id, dataInputFood, { headers });
+    if (response.status == 200) {
+      emptyForm();
+      backToMenuFromEdit();
+      fetchData();
+      Swal.fire({
+        title: "Data " + response.data.data.nama_produk + " Berhasil Diubah",
+        icon: "success"
+      });
+    } else {
+      Swal.fire({
+        title: "Data " + response.data.data.nama_produk + " Gagal Ditambahkan",
+        icon: "error"
+      });
+    }
   } catch (error) {
-
+    errorMessageValue.value = error.response.data.errors;
+    console.clear();
   }
 };
 
 const deleteDataFood = async (row) => {
   try {
-    const response = await VarAppStore.destroyDataFood(row.id);
+    // const response = await VarAppStore.destroyDataFood(row.id);
+    await Swal.fire({
+      title: "Hapus Data " + row.nama_produk + " ?",
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      confirmButtonText: "Yes"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Data " + row.nama_produk + " Berhasil Dihapus",
+          icon: "success"
+        }), VarAppStore.destroyDataFood(row.id, { headers }).then(response =>
+          fetchData()
+        );
+      }
+    });
   } catch (error) {
 
   }
 };
 
-const backToMenu = async () => {
+const backToMenuFromAdd = async () => {
   try {
     displayAll.value = true;
     displayFormData.value = false;
     buttonAdd.value = true;
     buttonUpdate.value = false;
+    emptyMessage();
+  } catch (error) {
+
+  }
+};
+
+const backToMenuFromEdit = async () => {
+  try {
+    displayAll.value = true;
+    displayFormData.value = false;
+    buttonAdd.value = true;
+    buttonUpdate.value = false;
+    emptyMessage();
+    emptyForm();
   } catch (error) {
 
   }
@@ -336,5 +394,4 @@ onMounted(async () => {
   width: 300px;
   background: #DDD;
   margin: auto;
-}
-</style>
+}</style>

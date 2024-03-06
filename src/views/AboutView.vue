@@ -35,24 +35,6 @@
 
 
 <script>
-// import { Cropper } from 'vue-advanced-cropper';
-// import 'vue-advanced-cropper/dist/style.css';
-
-// export default {
-// 	components: {
-// 		Cropper,
-// 	},
-// 	data() {
-// 	    return {
-// 	        img: 'https://images.unsplash.com/photo-1600984575359-310ae7b6bdf2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80',
-// 	    }
-// 	},
-// 	methods: {
-// 		change({ coordinates, canvas }) {
-// 			console.log(coordinates, canvas)
-// 		}
-// 	},
-// }
 import { Cropper } from "vue-advanced-cropper";
 import "vue-advanced-cropper/dist/style.css";
 export default {
@@ -80,7 +62,25 @@ export default {
   }
 };
 </script>
+<!-- <script setup>
+import {ref} from 'vue';
+import { Cropper } from "vue-advanced-cropper";
+import "vue-advanced-cropper/dist/style.css";
 
+// const cropper = ref();
+const cropImage = async () => {
+  try {
+    // const result = cropper.value.getResult();
+    const result = $refs.cropper.getResult();
+    const newTab = window.open();
+    newTab.document.body.innerHTML = `<img src="${result.canvas.toDataURL(
+        "image/jpeg"
+      )}"></img>`;
+  } catch (error) {
+    
+  }
+}
+</script> -->
 
 <style>
 @media (min-width: 1024px) {

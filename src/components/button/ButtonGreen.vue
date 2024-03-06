@@ -1,9 +1,9 @@
 <template>
-    <button type="button" @click="actionButton" class="btn btn-success">{{ TextButton }}</button>
+    <button type="button" @click="actionButton" class="btn btn-success">{{ textButton }}</button>
 </template>
 <script setup>
 // import { defineEmits } from 'vue';
-const props = defineProps(['TextButton']);
+const props = defineProps(['textButton']);
 const emit = defineEmits(['actionButton']);
 
 // const actionButton = () => {
@@ -13,7 +13,7 @@ const emit = defineEmits(['actionButton']);
 <!-- <script>
 export default {
   props: {
-    TextButton: {
+    textButton: {
       type: String
     }
   },

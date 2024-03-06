@@ -1,252 +1,225 @@
 <template>
-    <ContentHeader TextContentHeader="Daftar Pegawai" />
-    <section class="content">
+    <Navbar />
+    <Sidebar />
+    <div class="content-wrapper">
+        <div class="content">
+            <div class="container-fluid">
 
-        <!-- Default box -->
-        <div class="card card-solid" v-show="displayAll">
-            <div class="card-header">
-                <ButtonBlue @click="formDataAdd" TextButton="Tambah Data" />
-            </div>
+                <ContentHeader TextContentHeader="Daftar Pegawai" />
+                <section class="content">
 
-            <!-- Card -->
-            <div class="card-body pb-0">
-                <div class="row">
-                    <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column"
-                        v-for="item in dataAllEmployee.data">
-                        <div class="card bg-light d-flex flex-fill">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-7">
-                                        <h2 class="lead"><b>{{ item.nama }}</b></h2>
-                                        <ul class="ml-4 mb-0 fa-ul text-muted">
-                                            <li class="small mb-1">
-                                                <span class="fa-li">
-                                                    <i class="fas fa-lg fa-envelope"></i>
-                                                </span>
-                                                {{ item.email }}
-                                            </li>
-                                            <li class="small mb-1">
-                                                <span class="fa-li">
-                                                    <i class="fas fa-lg fa-map-marker-alt"></i>
-                                                </span>
-                                                {{ item.alamat }}
-                                            </li>
-                                            <li class="small mb-1">
-                                                <span class="fa-li">
-                                                    <i class="fas fa-lg fa-phone"></i>
-                                                </span>
-                                                {{ item.no_telp }}
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-5 text-center">
-                                        <img src="../assets/adminlte/dist/img/user1-128x128.jpg" alt="user-avatar"
-                                            class="img-circle img-fluid">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <div class="text-right">
-                                    <ButtonRed TextButton="Hapus" @click="deleteDataEmployee(item.id, item.nama)"
-                                        class="mr-1" />
-                                    <ButtonBlue TextButton="Lihat" @click="selectEmployee(item.id)" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Profile -->
-        <div class="container-fluid" v-show="displayDetails">
-            <div class="row" v-for="item in dataDetailEmployee">
-                <div class="col-md-3">
-                    <div class="card card-primary card-outline">
-                        <div class="card-body box-profile">
-                            <div class="text-center">
-                                <img class="profile-user-img img-fluid img-circle"
-                                    src="../assets/adminlte/dist/img/user4-128x128.jpg" alt="User profile picture">
-                            </div>
-                            <h3 class="profile-username text-center">{{ item.nama }}</h3>
-                            <p class="text-muted text-center">Admin</p>
-                            <!-- <a href="#" class="btn btn-primary btn-block"><b>Edit Data</b></a> -->
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <ButtonBlue TextButton="Edit Data" class="btn-block" @click="formDataEdit(item.id)" />
-                                </div>
-                                <div class="col-sm-6">
-                                    <ButtonGreen TextButton="Kembali" class="btn-block" @click="backToAllData" />
-                                </div>
-                            </div>
-                        </div>                        
-                    </div>                   
-                </div>
-                <div class="col-md-9">
-                    <div class="card card-primary">
+                    <!-- Default box -->
+                    <div class="card card-solid" v-show="displayAll">
                         <div class="card-header">
-                            <h3 class="card-title">Info Lengkap</h3>
+                            <ButtonBlue @click="formDataAdd" textButton="Tambah Data" />
                         </div>
-                        <div class="card-body">
-                            <strong><i class="fas fa-envelope mr-1"></i>Email</strong>
-                            <p class="text-muted">
-                                {{ item.email }}
-                            </p>
-                            <hr>
-                            <strong><i class="fas fa-venus-mars mr-1"></i>Jenis Kelamin</strong>
-                            <p class="text-muted" v-if="item.jenis_kelamin == 0">Laki - Laki</p>
-                            <p class="text-muted" v-else-if="item.jenis_kelamin == 1">Perempuan</p>
-                            <!-- <p class="text-muted">{{ item.jenis_kelamin }}</p> -->
-                            <hr>
-                            <strong><i class="fas fa-birthday-cake mr-1"></i>Tempat Tanggal Lahir</strong>
-                            <p class="text-muted">
-                                <span class="tag tag-danger">{{ item.tempat_lahir }}, </span>
-                                <span class="tag tag-success">{{ item.tanggal_lahir }}</span>
-                            </p>
-                            <hr>
-                            <strong><i class="fas fa-praying-hands mr-1"></i>Agama</strong>
-                            <p class="text-muted" v-if="item.agama == 0">Islam</p>
-                            <p class="text-muted" v-else-if="item.agama == 1">Kristen</p>
-                            <p class="text-muted" v-else-if="item.agama == 2">Hindu</p>
-                            <p class="text-muted" v-else-if="item.agama == 3">Buddha</p>
-                            <p class="text-muted" v-else-if="item.agama == 4">Konghucu</p>
-                            <!-- <p class="text-muted">{{ item.agama }}</p> -->
-                            <hr>
-                            <strong><i class="fas fa-phone-square-alt mr-1"></i>Nomor Telepon</strong>
-                            <p class="text-muted">{{ item.no_telp }}</p>
-                            <hr>
-                            <strong><i class="fas fa-map-marker-alt mr-1"></i>Alamat</strong>
-                            <p class="text-muted">{{ item.alamat }}</p>
+
+                        <!-- Card -->
+                        <div class="card-body pb-0">
+                            <div class="row">
+                                <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column"
+                                    v-for="item in dataAllEmployee.data">
+                                    <div class="card bg-light d-flex flex-fill">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-7">
+                                                    <h2 class="lead"><b>{{ item.nama }}</b></h2>
+                                                    <ul class="ml-4 mb-0 fa-ul text-muted">
+                                                        <li class="small mb-1">
+                                                            <span class="fa-li">
+                                                                <i class="fas fa-lg fa-envelope"></i>
+                                                            </span>
+                                                            {{ item.email }}
+                                                        </li>
+                                                        <li class="small mb-1">
+                                                            <span class="fa-li">
+                                                                <i class="fas fa-lg fa-map-marker-alt"></i>
+                                                            </span>
+                                                            {{ item.alamat }}
+                                                        </li>
+                                                        <li class="small mb-1">
+                                                            <span class="fa-li">
+                                                                <i class="fas fa-lg fa-phone"></i>
+                                                            </span>
+                                                            {{ item.no_telp }}
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-5 text-center">
+                                                    <img src="../assets/adminlte/dist/img/user1-128x128.jpg"
+                                                        alt="user-avatar" class="img-circle img-fluid">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="text-right">
+                                                <ButtonRed textButton="Hapus"
+                                                    @click="deleteDataEmployee(item.id, item.nama)" class="btn-sm mr-1" />
+                                                <ButtonGreen textButton="Edit" @click="formDataEdit(item.id)"
+                                                    class="btn-sm mr-1" />
+                                                <ButtonBlue textButton="Lihat" @click="selectEmployee(item.id)"
+                                                    data-toggle="modal" data-target="#modal-default" class="btn-sm" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+
+                    <!-- modal -->
+                    <ModalWindow id="modal-default" class="modal fade" textModal="Detail Pegawai">
+                        <template #content>
+                            <div class="modal-body">
+                                <div class="card-body box-profile" v-for="item in dataDetailEmployee">
+                                    <div class="text-center">
+                                        <img class="profile-user-img img-fluid img-circle"
+                                            src="../assets/adminlte/dist/img/user4-128x128.jpg" alt="User profile picture">
+                                    </div>
+                                    <h3 class="profile-username text-center">{{ item.nama }}</h3>
+                                    <p class="text-muted text-center">Software Engineer</p>
+                                    <ul class="list-group list-group-unbordered mb-3">
+                                        <li class="list-group-item">
+                                            <b>Email</b> <a class="float-right">{{ item.email }}</a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <b>Jenis Kelamin</b>
+                                            <a class="float-right" v-if="item.jenis_kelamin == 0">Laki - Laki</a>
+                                            <a class="float-right" v-else-if="item.jenis_kelamin == 1">Perempuan</a>
+                                            <a class="float-right" v-else>Tidak Diketahui</a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <b>Tempat, Tanggal Lahir</b> <a class="float-right">{{ item.tempat_lahir
+                                            }}, {{ moment(item.tanggal_lahir).format('DD/MM/YYYY') }}</a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <b>Agama</b>
+                                            <a class="float-right" v-if="item.agama == 0">Islam</a>
+                                            <a class="float-right" v-else-if="item.agama == 1">Kristen</a>
+                                            <a class="float-right" v-else-if="item.agama == 2">Hindu</a>
+                                            <a class="float-right" v-else-if="item.agama == 3">Buddha</a>
+                                            <a class="float-right" v-else-if="item.agama == 4">Konghucu</a>
+                                            <a class="float-right" v-else>Tidak Diketahui</a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <b>Nomor Telepon</b> <a class="float-right">{{ item.no_telp }}</a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <b>Alamat</b> <a class="float-right">{{ item.alamat }}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </template>
+                    </ModalWindow>
+
+                    <!-- Form -->
+                    <div class="col-md-12" v-show="displayFormData">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title" v-show="displayButtonAdd">Tambah Data Pegawai</h3>
+                                <h3 class="card-title" v-show="displayButtonEdit">Edit Data Pegawai</h3>
+                            </div>
+                            <form @submit.prevent>
+                                <div class="card-body">
+                                    <FormInputBase labelText="Nama Pegawai" v-model="dataInputEmployee.nama"
+                                        :errorMessage="errorMessageValue?.nama" inputType="text" />
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <FormInputBase labelText="Email" v-model="dataInputEmployee.email"
+                                                :error-message="errorMessageValue?.email" inputType="text" />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <FormInputDropDown labelText="Jenis Kelamin"
+                                                v-model="dataInputEmployee.jenis_kelamin" :options="listJenisKelamin"
+                                                :errorMessage="errorMessageValue?.jenis_kelamin" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <FormInputBase labelText="Tempat Lahir" v-model="dataInputEmployee.tempat_lahir"
+                                                :errorMessage="errorMessageValue?.tempat_lahir" inputType="text" />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <FormInputBase labelText="Tanggal Lahir"
+                                                v-model="dataInputEmployee.tanggal_lahir"
+                                                :errorMessage="errorMessageValue.tanggal_lahir" inputType="date" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <FormInputDropDown labelText="Agama" v-model="dataInputEmployee.agama"
+                                                :options="listAgama" :errorMessage="errorMessageValue?.agama" />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <FormInputBase labelText="Nomor Telepon" v-model="dataInputEmployee.no_telp"
+                                                :errorMessage="errorMessageValue?.no_telp" inputType="number" />
+                                        </div>
+                                    </div>
+                                    <FormInputBase labelText="Alamat" v-model="dataInputEmployee.alamat"
+                                        :errorMessage="errorMessageValue?.alamat" inputType="text" />
+                                </div>
+                                <div class="card-footer">
+                                    <div v-show="displayButtonAdd">
+                                        <ButtonGreen textButton="Tambah" @click="addDataEmployee" class="mr-1" />
+                                        <ButtonBlue textButton="Kembali" @click="backToMenuFromAdd" />
+                                    </div>
+                                    <div v-show="displayButtonEdit">
+                                        <ButtonGreen textButton="Ubah" @click="updateDataEmployee" class="mr-1" />
+                                        <ButtonBlue textButton="Kembali" @click="backToMenuFromEdit" />
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </section>
             </div>
         </div>
-
-        <!-- Form -->
-        <div class="col-md-12" v-show="displayFormData">
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h3 class="card-title" v-show="displayButtonAdd">Tambah Data Pegawai</h3>
-                    <h3 class="card-title" v-show="displayButtonEdit">Edit Data Pegawai</h3>
-                </div>
-                <form @submit.prevent>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label for="kode">Nama Pegawai</label>
-                            <input type="text" v-model="dataInputEmployee.nama" class="form-control">
-                            <span style="color: red; font-size: 12px;" v-if="errorMessage?.nama">{{ errorMessage.nama[0]}}</span>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="kode">Email</label>
-                                    <input type="text" v-model="dataInputEmployee.email" class="form-control">
-                                    <span style="color: red; font-size: 12px;" v-if="errorMessage?.email">{{
-                                        errorMessage.email[0] }}</span>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="kode">Jenis Kelamin</label>
-                                    <select v-model="dataInputEmployee.jenis_kelamin" class="form-control"
-                                        name="jenis_kelamin_edit" id="jenis_kelamin_edit">
-                                        <option value="">--Pilih--</option>
-                                        <option value="0">Laki - Laki</option>
-                                        <option value="1">Perempuan</option>
-                                    </select>
-                                    <span style="color: red; font-size: 12px;" v-if="errorMessage?.jenis_kelamin">{{
-                                        errorMessage.jenis_kelamin[0] }}</span>
-                                    <!-- <input type="text" v-model="dataInputEmploye.jenis_kelamin" class="form-control"> -->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="kode">Tempat Lahir</label>
-                                    <input type="text" v-model="dataInputEmployee.tempat_lahir" class="form-control">
-                                    <span style="color: red; font-size: 12px;" v-if="errorMessage?.tempat_lahir">{{
-                                        errorMessage.tempat_lahir[0] }}</span>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="kode">Tanggal Lahir</label>
-                                    <input type="date" v-model="dataInputEmployee.tanggal_lahir" class="form-control">
-                                    <span style="color: red; font-size: 12px;" v-if="errorMessage?.tanggal_lahir">{{
-                                        errorMessage.tanggal_lahir[0] }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="kode">Agama</label>
-                                    <select v-model="dataInputEmployee.agama" class="form-control">
-                                        <option value="">--Pilih--</option>
-                                        <option value="0">Islam</option>
-                                        <option value="1">Kristen</option>
-                                        <option value="2">Hindu</option>
-                                        <option value="3">Buddha</option>
-                                        <option value="4">Konghucu</option>
-                                    </select>
-                                    <span style="color: red; font-size: 12px;" v-if="errorMessage?.agama">{{
-                                        errorMessage.agama[0] }}</span>
-                                    <!-- <input type="text" v-model="dataInputEmploye.agama" class="form-control"> -->
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="kode">Nomor Telepon</label>
-                                    <input type="number" v-model="dataInputEmployee.no_telp" class="form-control">
-                                    <span style="color: red; font-size: 12px;" v-if="errorMessage?.no_telp">{{
-                                        errorMessage.no_telp[0] }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="kode">Alamat</label>
-                            <input type="text" v-model="dataInputEmployee.alamat" class="form-control">
-                            <span style="color: red; font-size: 12px;" v-if="errorMessage?.alamat">{{ errorMessage.alamat[0]
-                            }}</span>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <div v-show="displayButtonAdd">
-                            <ButtonGreen TextButton="Tambah" @click="addDataEmployee" class="mr-1" />
-                            <ButtonBlue TextButton="Kembali" @click="backToAllData" />
-                        </div>
-                        <div v-show="displayButtonEdit">
-                            <ButtonGreen TextButton="Ubah" @click="updateDataEmployee" class="mr-1" />
-                            <ButtonBlue TextButton="Kembali" @click="backToDetail" />
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-    </section>
+    </div>
+    <Footer />
 </template>
 <script setup>
+import Navbar from '../components/Navbar.vue';
+import Sidebar from '../components/Sidebar.vue';
+import Footer from '../components/Footer.vue';
 import { ref, reactive, onMounted } from 'vue';
 import { UseAppStore } from '../stores/appStore';
+import moment from 'moment';
 import ContentHeader from '../components/ContentHeader.vue';
 import ButtonBlue from '../components/button/ButtonBlue.vue';
 import ButtonGreen from '../components/button/ButtonGreen.vue';
 import ButtonRed from '../components/button/ButtonRed.vue';
-
+import FormInputBase from '../components/form/FormInputBase.vue';
+import FormInputDropDown from '../components/form/FormInputDropDown.vue';
+import ModalWindow from '../components/Modal.vue';
 
 const VarAppStore = UseAppStore();
 const dataAllEmployee = ref([]);
 const dataDetailEmployee = ref([]);
-const errorMessage = ref({});
+const errorMessageValue = ref({});
+
+const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+};
 
 const displayAll = ref(true);
-const displayDetails = ref(false);
 const displayFormData = ref(false);
 const displayButtonAdd = ref(false);
 const displayButtonEdit = ref(false);
+
+const listJenisKelamin = reactive({
+    0: 'Laki - Laki',
+    1: 'Perempuan'
+});
+
+const listAgama = reactive({
+    0: 'Islam',
+    1: 'Kristen',
+    2: 'Hindu',
+    3: 'Buddha',
+    4: 'Konghucu'
+});
 
 const dataInputEmployee = reactive({
     nama: '',
@@ -261,7 +234,7 @@ const dataInputEmployee = reactive({
 
 const fetchData = async () => {
     try {
-        const response = await VarAppStore.getDataAllEmployee();
+        const response = await VarAppStore.getDataAllEmployee({ headers });
         dataAllEmployee.value = response.data;
     } catch (error) {
 
@@ -285,19 +258,7 @@ const emptyForm = async () => {
 
 const emptyMessage = async () => {
     try {
-        errorMessage.value = '';
-    } catch (error) {
-
-    }
-};
-
-const backToHomeAndRefreshData = async () => {
-    try {
-        displayAll.value = true;
-        displayDetails.value = false;
-        displayFormData.value = false;
-        displayButtonAdd.value = false;
-        displayButtonEdit.value = false;
+        errorMessageValue.value = '';
     } catch (error) {
 
     }
@@ -305,13 +266,7 @@ const backToHomeAndRefreshData = async () => {
 
 const selectEmployee = async (idData) => {
     try {
-        displayDetails.value = true;
-        displayAll.value = false;
-        displayFormData.value = false;
-        displayButtonAdd.value = false;
-        displayButtonEdit.value = false;
-
-        const response = await VarAppStore.getDataDetailEmployee(idData);
+        const response = await VarAppStore.getDataDetailEmployee(idData, { headers });
         dataDetailEmployee.value = response.data;
     } catch (error) {
 
@@ -324,7 +279,6 @@ const formDataAdd = async () => {
         displayButtonAdd.value = true;
         displayButtonEdit.value = false;
         displayAll.value = false;
-        displayDetails.value = false;
     } catch (error) {
 
     }
@@ -332,16 +286,16 @@ const formDataAdd = async () => {
 
 const addDataEmployee = async () => {
     try {
-        const response = await VarAppStore.storeDataEmployee(dataInputEmployee);
+        const response = await VarAppStore.storeDataEmployee(dataInputEmployee, { headers });
         if (response.status == 201) {
-            backToHomeAndRefreshData();
-            emptyForm();
-            emptyMessage();
             fetchData();
+            backToMenuFromAdd();
             Swal.fire({
                 title: "Data " + response.data.data.nama + " Berhasil Ditambahkan",
                 icon: "success"
             });
+            emptyForm();
+            emptyMessage();
         } else {
             Swal.fire({
                 title: "Data Gagal Ditambahkan",
@@ -349,7 +303,7 @@ const addDataEmployee = async () => {
             });
         }
     } catch (error) {
-        errorMessage.value = error.response.data.errors;
+        errorMessageValue.value = error.response.data.errors;
         console.clear();
     }
 };
@@ -360,9 +314,8 @@ const formDataEdit = async (idData) => {
         displayButtonEdit.value = true;
         displayButtonAdd.value = false;
         displayAll.value = false;
-        displayDetails.value = false;
 
-        const response = await VarAppStore.getDataDetailEmployee(idData);
+        const response = await VarAppStore.getDataDetailEmployee(idData, { headers });
         Object.assign(dataInputEmployee, {
             id: response.data.data.id,
             nama: response.data.data.nama,
@@ -381,16 +334,16 @@ const formDataEdit = async (idData) => {
 
 const updateDataEmployee = async () => {
     try {
-        const response = await VarAppStore.updateDataEmployee(dataInputEmployee.id, dataInputEmployee);
+        const response = await VarAppStore.updateDataEmployee(dataInputEmployee.id, dataInputEmployee, { headers });
         if (response.status == 200) {
-            backToHomeAndRefreshData();
-            emptyForm();
-            emptyMessage();
+            backToMenuFromEdit();
             fetchData();
             Swal.fire({
                 title: "Data " + response.data.data.nama + " Berhasil Diubah",
                 icon: "success"
             });
+            emptyForm();
+            emptyMessage();
         } else {
             Swal.fire({
                 title: "Data Gagal Diubah",
@@ -398,7 +351,7 @@ const updateDataEmployee = async () => {
             });
         }
     } catch (error) {
-        errorMessage.value = error.response.data.errors;
+        errorMessageValue.value = error.response.data.errors;
         console.clear();
     }
 };
@@ -416,7 +369,7 @@ const deleteDataEmployee = async (idData, namaData) => {
                 Swal.fire({
                     title: "Data " + namaData + " Berhasil Dihapus",
                     icon: "success"
-                }),VarAppStore.destroyDataEmployee(idData).then(response =>
+                }), VarAppStore.destroyDataEmployee(idData, { headers }).then(response =>
                     fetchData()
                 );
             }
@@ -426,10 +379,9 @@ const deleteDataEmployee = async (idData, namaData) => {
     }
 };
 
-const backToAllData = async () => {
+const backToMenuFromAdd = async () => {
     try {
         displayAll.value = true;
-        displayDetails.value = false;
         displayFormData.value = false;
         emptyMessage();
     } catch (error) {
@@ -437,17 +389,16 @@ const backToAllData = async () => {
     }
 };
 
-const backToDetail = async () => {
+const backToMenuFromEdit = async () => {
     try {
-        displayDetails.value = true;
-        displayAll.value = false;
+        displayAll.value = true;
         displayFormData.value = false;
         emptyForm();
         emptyMessage();
     } catch (error) {
 
     }
-}
+};
 
 onMounted(async () => {
     await fetchData();

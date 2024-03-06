@@ -3,21 +3,21 @@
         :search-options="{ enabled: true }">
         <template #table-row="{ column, row }">
             <div v-if="column.field === 'aksi'">
-                <ButtonBlue @click="handleAction('edit', row)" TextButton="Edit" class="mr-1 mb-1"/>
-                <ButtonRed @click="handleAction('delete', row)" TextButton="Delete" class="mb-1"/>
+                <ButtonBlue @click="handleAction('edit', row)" textButton="Edit" class="mr-1 mb-1"/>
+                <ButtonRed @click="handleAction('delete', row)" textButton="Delete" class="mb-1"/>
             </div>
-            <div v-else-if="column.field === 'tersedia'">
+            <!-- <div v-else-if="column.field === 'tersedia'">
                 <span v-if="row.tersedia == '1'">
                     Tersedia
                 </span>
                 <span v-else>
                     Tidak Tersedia
                 </span>
-            </div>
+            </div> -->
             <div v-else-if="column.field === 'gambar'">
                 <img :src="'http://127.0.0.1:8000/storage/image/'+row.gambar" alt="Photo 1" class="img-fluid">
             </div>
-            <div v-else-if="column.field === 'status'">
+            <!-- <div v-else-if="column.field === 'status'">
                 <span v-if="row.status == '0'">
                     Proses
                 </span>
@@ -27,7 +27,7 @@
                 <span v-else>
                     Batal
                 </span>
-            </div>
+            </div> -->
             <div v-else>
                 {{ row[column.field] }}
             </div>

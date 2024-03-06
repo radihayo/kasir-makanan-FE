@@ -2,77 +2,87 @@ import { defineStore } from 'pinia'
 import axios from "axios"
 
 export const UseAppStore = defineStore('AppStore', () => {
+    //auth
+    const login = async ({username,password}) => {
+        const response = await axios.post('/login',{username,password});
+        return response;
+    };
+    const logout = async ({headers}) => {
+        const response = await axios.get('/logout',{headers});
+        return response;
+    };
+
     // food store
-    const getDataAllFood = async () => {
+    const getDataAllFood = async ({headers}) => {
         try {
-            const response = await axios.get('/products/show');
+            const response = await axios.get('/products/show',{headers});
             return response;
         } catch (error) {
         }
     };
-    const getDataDetailFood = async (idDataFood) => {
+    const getDataDetailFood = async (idDataFood,{headers}) => {
         try {
-            const response = await axios.get('/products/show/'+idDataFood);
+            const response = await axios.get('/products/show/'+idDataFood,{headers});
             return response;
         } catch (error) {
         }
     };
     const storeDataFood = async (dataFood,config) => {
-        try {
+        // try {
             const response = await axios.post('/products/store',dataFood,config);
             return response;
-        } catch (error) {
-        }
+        // } catch (error) {
+        // }
     };
-    const updateDataFood = async (idDataFood,dataFood) => {
-        try {
-            const response = await axios.put('/products/update/'+idDataFood,dataFood);
+    const updateDataFood = async (idDataFood,dataFood,{headers}) => {
+        // try {
+            const response = await axios.put('/products/update/'+idDataFood,dataFood,{headers});
             return response;
-        } catch (error) {
-        }
+        // } catch (error) {
+        // }
     };
-    const destroyDataFood = async (idDataFood) => {
+    const destroyDataFood = async (idDataFood,{headers}) => {
         try {
-            const response = await axios.delete('/products/destroy/'+idDataFood);
+            const response = await axios.delete('/products/destroy/'+idDataFood,{headers});
             return response;
         } catch (error) {
         }
     };
 
     // employee store
-    const getDataAllEmployee = async () => {
+    const getDataAllEmployee = async ({headers}) => {
         try {
-            const response = await axios.get('/employees/show');
+            const response = await axios.get('/employees/show',{headers});
             return response;
         } catch (error) {
         }
     };
-    const getDataDetailEmployee = async (idData) => {
+    const getDataDetailEmployee = async (idData,{headers}) => {
         try {
-            const response = await axios.get('/employees/show/'+idData);
+            const response = await axios.get('/employees/show/'+idData,{headers});
             return response;
         } catch (error) {
         }
     };
-    const storeDataEmployee = async (dataEmployee) => {
+    const storeDataEmployee = async (dataEmployee,{headers}) => {
         // try {
-            const response = await axios.post('/employees/store',dataEmployee);
+            const response = await axios.post('/employees/store',dataEmployee,{headers});
             return response;
         // } catch (error) {
         //     console.log(error.response.data.errors)
         // }
     };
-    const updateDataEmployee = async (idEmployee,dataEmployee) => {
+    const updateDataEmployee = async (idEmployee,dataEmployee,{headers}) => {
         // try {
-            const response = await axios.put('/employees/update/'+idEmployee, dataEmployee);
+            const response = await axios.put('/employees/update/'+idEmployee, dataEmployee,{headers});
             return response;
         // } catch (error) {
             
         // }
     };
-    const destroyDataEmployee = async (idEmployee) => {
+    const destroyDataEmployee = async (idEmployee,{headers}) => {
         try {
-            const response = await axios.delete('/employees/destroy/'+idEmployee);
+            const response = await axios.delete('/employees/destroy/'+idEmployee,{headers});
             return response;
         } catch (error) {
             
@@ -80,24 +90,26 @@ export const UseAppStore = defineStore('AppStore', () => {
     };
 
     // transaction store
-    const getDataAllTransaction = async () => {
+    const getDataAllTransaction = async ({headers}) => {
         try {
-            const response = await axios.get('/transactions/show');
+            const response = await axios.get('/transactions/show',{headers});
             return response;
         } catch (error) {
             console.log(error);
         }
     };
-    const storeDataTransaction = async (dataTransaction) => {
-        try {
-            const response = await axios.post('/transactions/store',dataTransaction);
+    const storeDataTransaction = async (dataTransaction,{headers}) => {
+        // try {
+            const response = await axios.post('/transactions/store',dataTransaction,{headers});
             return response;
-        } catch (error) {
-            console.log(error);
-        }
+        // } catch (error) {
+        //     console.log(error);
+        // }
     };
 
     return{
+        login,
+        logout,
         getDataAllFood,
         getDataDetailFood,
         storeDataFood,
@@ -112,72 +124,3 @@ export const UseAppStore = defineStore('AppStore', () => {
         storeDataTransaction
     };
 });
-
-
-// import { defineStore } from 'pinia'
-// import axios from "axios"
-
-// export const UseAppStore = defineStore('AppStore', () => {
-//     // food store
-//     const getDataAllFood = async () => {
-//         try {
-//             const response = await axios.get('http://127.0.0.1/kasir-makanan/kasir-makanan-BE/public/api/products/show');
-//             return response;
-//         } catch (error) {
-//             console.log(error);
-//         }
-//     };
-//     const getDataDetailFood = async (idDataFood) => {
-//         try {
-//             const response = await axios.get('http://127.0.0.1/kasir-makanan/kasir-makanan-BE/public/api/products/show/'+idDataFood);
-//             return response;
-//         } catch (error) {
-//             console.log(error);
-//         }
-//     };
-
-//     // employee store
-//     const getDataAllEmployee = async () => {
-//         try {
-//             const response = await axios.get('http://127.0.0.1/kasir-makanan/kasir-makanan-BE/public/api/employees/show');
-//             return response;
-//         } catch (error) {
-//             console.log(error);
-//         }
-//     };
-//     const getDataDetailEmployee = async (idData) => {
-//         try {
-//             const response = await axios.get('http://127.0.0.1/kasir-makanan/kasir-makanan-BE/public/api/employees/show/'+idData);
-//             return response;
-//         } catch (error) {
-//             console.log(error);
-//         }
-//     };
-
-//     // transaction store
-//     const getDataAllTransaction = async () => {
-//         try {
-//             const response = await axios.get('http://127.0.0.1/kasir-makanan/kasir-makanan-BE/public/api/transactions/show');
-//             return response;
-//         } catch (error) {
-//             console.log(error);
-//         }
-//     };
-//     const storeDataTransaction = async (dataTransaction) => {
-//         try {
-//             const response = await axios.post('http://127.0.0.1/kasir-makanan/kasir-makanan-BE/public/api/transactions/store',dataTransaction);
-//             return response;
-//         } catch (error) {
-//             console.log(error);
-//         }
-//     };
-
-//     return{
-//         getDataAllFood,
-//         getDataDetailFood,
-//         getDataAllEmployee,
-//         getDataDetailEmployee,
-//         getDataAllTransaction,
-//         storeDataTransaction
-//     };
-// });

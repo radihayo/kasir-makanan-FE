@@ -1,10 +1,10 @@
 <template>
-    <button type="button" @click="ActionButton" class="btn btn-primary">{{ TextButton }}</button>
+    <button type="button" @click="ActionButton" class="btn btn-primary">{{ textButton }}</button>
 </template>
 <script>
 export default {
   props: {
-    TextButton: {
+    textButton: {
       type: String
     }
   },
