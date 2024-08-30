@@ -1,0 +1,30 @@
+{
+  "name": "kasir-makanan-fe",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@syncfusion/ej2-vue-notifications": "^24.2.3",
+    "@vueuse/core": "^10.7.2",
+    "axios": "^1.6.7",
+    "js-cookie": "^3.0.5",
+    "pinia": "^2.1.7",
+    "vue": "^3.3.11",
+    "vue-advanced-cropper": "^2.8.8",
+    "vue-cropperjs": "^5.0.0",
+    "vue-good-table-next": "^0.2.1",
+    "vue-loading-skeleton": "^2.0.0-beta.1",
+    "vue-moment": "^4.1.0",
+    "vue-router": "^4.2.5",
+    "vue-sweetalert2": "^5.0.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.5.2",
+    "vite": "^5.0.10"
+  }
+}
